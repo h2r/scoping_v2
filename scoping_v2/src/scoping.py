@@ -6,11 +6,15 @@ from typing import List, Optional
 
 @dataclass
 class PreconditionLifted:
+    """Precondition, with free parameters that need to be filled. Filling the free parameters gives a grounded effect."""
+
     pass
 
 
 @dataclass
 class EffectLifted:
+    """Effect, with free parameters that need to be filled. Filling the free parameters gives a grounded effect."""
+
     pass
 
 
@@ -23,7 +27,7 @@ class GroundingsSet:
 
 @dataclass
 class ObjectType:
-    """Type of an object. Eg ball, brick."""
+    """Type of an object. Eg ball, brick. Will be used in EffectLifted, etc."""
 
     name: str
 
@@ -40,6 +44,8 @@ class OperatorLifted:
 
 @dataclass
 class OperatorWithGroundings:
+    """A single lifted operator, and a set of groundings."""
+
     operator_lifted: OperatorLifted
     groundings_set: GroundingsSet
 
@@ -72,6 +78,11 @@ class OperatorWithGroundingsSet:
 
 @dataclass
 class PartialState:
+    """Value assignments to some, but not all, variables.
+
+    We may end up needing a 'lifted' version, that lets us express this more compactly for large domains.
+    """
+
     assignments: List[ConcreteVariableValueAssignment]
 
     def delete_pvars(self, pvars_to_delete: PVarGroundedSet) -> PartialState:
@@ -124,6 +135,7 @@ def scope(
     initial_state: PartialState,
     goal: ConcreteVariableValueAssignment,
 ) -> OperatorWithGroundingsSet:
+    """Get a compressed operator set sufficient for optimal planning."""
     # Initialize relevant vars. TODO: What is the format?
     # I don't think it's just (lifted pvars, groundingsset) - we may need a union of these
 
@@ -158,7 +170,8 @@ def merge_operators(
     initial_state: PartialState,
     relevant_pvars: PVarGroundedSet,
 ) -> OperatorWithGroundingsSet:
-    """
+    """Merge operators after partitioning them by their effects on relevant_pvars.
+
     Expected hard parts:
 
     1. Merging lifted preconditions. We probably can't use z3.
