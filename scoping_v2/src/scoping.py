@@ -174,7 +174,9 @@ def merge_operators(
 
     Expected hard parts:
 
-    1. Merging lifted preconditions. We probably can't use z3.
+    1. Merging lifted preconditions. We probably can't use z3, since it doesn't have native quantifier (forall, exists) support afaik.
+        In the past, we just grounded 'forall' using And, and 'exists' using Or, over all groundings.
+
     2. Dealing with differently named parameters/symmetries in parameters.
         I _think_ handling this poorly would reduce scoping aggressiveness, but not make it unsound.
     """
