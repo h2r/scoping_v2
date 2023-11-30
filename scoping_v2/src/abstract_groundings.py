@@ -63,4 +63,5 @@ class OperatorWithGroundingsSet(ABC):
     def get_merged_operators(
         self: OWGS, initial_state: PartialState, relevant_pvars: PVarGroundedSet
     ) -> OWGS:
-        raise NotImplementedError("Child class shoudl implement this")
+        """This is probably the hardest thing to implement."""
+        raise NotImplementedError("Child class should implement this")
