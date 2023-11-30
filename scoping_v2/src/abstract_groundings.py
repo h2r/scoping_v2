@@ -63,5 +63,10 @@ class OperatorWithGroundingsSet(ABC):
     def get_merged_operators(
         self: OWGS, initial_state: PartialState, relevant_pvars: PVarGroundedSet
     ) -> OWGS:
-        """This is probably the hardest thing to implement."""
+        """This is probably the hardest thing to implement.
+        Make sure to keep track of groundings for operator params, and groundings
+        for quantifiers separately.
+
+        Also: how do we cope with the initial_state when without grounding everything?
+        """
         raise NotImplementedError("Child class should implement this")
