@@ -2,9 +2,6 @@
 whichever concrete grounding implementation we want."""
 from __future__ import annotations
 
-from dataclasses import dataclass
-from typing import List, Optional, TypeVar, Type
-from abc import ABC, abstractmethod, abstractclassmethod
 from scoping_v2.src.atomic_classes import *
 from scoping_v2.src.abstract_groundings import *
 
@@ -15,7 +12,7 @@ def scope(
     goal: ConcreteVariableValueAssignment,
 ) -> OperatorWithGroundingsSet:
     """Get a compressed operator set sufficient for optimal planning.
-    
+
     Args:
         operators_lifted: Characterizes the set of lifted operators and all possible groundings.
             The groundings will ideally be specified in a compact way.
@@ -30,8 +27,8 @@ def scope(
 
     while relevant_pvars_old != relevant_pvars:
         # Get merged operators
-        merged_operators = merge_operators(
-            operators_lifted, initial_state, relevant_pvars
+        merged_operators = operators_lifted.get_merged_operators(
+            initial_state, relevant_pvars
         )
 
         # Get affected variables
@@ -49,21 +46,3 @@ def scope(
         )
 
     return merged_operators  # type: ignore This is never unbound.
-
-
-def merge_operators(
-    operators_lifted: OperatorWithGroundingsSet,
-    initial_state: PartialState,
-    relevant_pvars: PVarGroundedSet,
-) -> OperatorWithGroundingsSet:
-    """Merge operators after partitioning them by their effects on relevant_pvars.
-
-    Expected hard parts:
-
-    1. Merging lifted preconditions. We probably can't use z3, since it doesn't have native quantifier (forall, exists) support afaik.
-        In the past, we just grounded 'forall' using And, and 'exists' using Or, over all groundings.
-
-    2. Dealing with differently named parameters/symmetries in parameters.
-        I _think_ handling this poorly would reduce scoping aggressiveness, but not make it unsound.
-    """
-    raise NotImplementedError()
