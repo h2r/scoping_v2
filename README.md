@@ -7,6 +7,9 @@ This is an attempt at lifted scoping. For now it's just the skeleton code and ty
 
 `scoping.py` has the scoping algorithm, written in terms of the abstract classes.
 
-`enumerated_groundings.py` implements the groundings in a way similar to current scoping. (WIP)
-
 The idea is that we will find smarter ways to implement the abstract classes, but `scoping.py` will remain unchanged.
+
+`enumerated_operators_like_og_scoping.py` implements the groundings in a way similar to current scoping. (WIP)
+
+`enumerated_operator_level_groundings.py` implements the groundings similar to current scoping, factors it as (lifted operator, set of groundings), where the set of groundings can use a compact format that lets us avoid enumerating all combinations of object groundings.
+
